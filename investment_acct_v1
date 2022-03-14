@@ -1,0 +1,34 @@
+balance = 0
+
+deposit = 20500=
+
+age = 22
+
+retirement_age = 65
+
+years_to_retirement = retirement_age - age
+
+
+# average 10 year return on SP500 = 13.48%
+
+
+rate = 13.48
+
+true_rate = rate * 0.01
+
+
+i = 0
+
+for year in range(years_to_retirement):
+
+    balance = (balance + deposit)*(1 + true_rate)
+
+    i += 1
+
+print(balance, i)    
+
+print("At retirement age. I will have ${}".format(balance))
+
+
+39502187.78158361 43
+At retirement age. I will have $39502187.78158361
