@@ -21,7 +21,7 @@ i = 0
 
 for year in range(years_to_retirement):
 
-    balance = (balance + deposit)*(1 + true_rate)
+    balance = balance * (1 + true_rate) + deposit
 
     i += 1
 
