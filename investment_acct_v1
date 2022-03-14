@@ -9,7 +9,7 @@ retirement_age = 65
 years_to_retirement = retirement_age - age
 
 
-# average 10 year return on SP500 = 13.48%
+# average return of SP500 over past 10 years = 13.48%
 
 
 rate = 13.48
