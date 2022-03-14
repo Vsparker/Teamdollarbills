@@ -28,7 +28,3 @@ for year in range(years_to_retirement):
 print(balance, i)    
 
 print("At retirement age. I will have ${}".format(balance))
-
-
-39502187.78158361 43
-At retirement age. I will have $39502187.78158361
