@@ -15,7 +15,7 @@ retirement_value = 5000000
 
 while balance < retirement_value:
 
-    balance = (balance + deposit)*(1 + true_rate)
+    balance = balance * (1 + true_rate) + deposit
 
     age += 1
 
