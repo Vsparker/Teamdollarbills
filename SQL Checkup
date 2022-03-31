@@ -1,0 +1,77 @@
+1.How many unique viewers did Game of Thrones & Westworld garner in the past 7 days?
+
+Select
+  distinct user_id
+from
+  (table created for fact_view)
+where
+  video_id in(
+    Select
+      video_id
+    from
+      (table created for dim_video)
+    where
+      series_name in('Game of Thrones', 'Westworld')
+  )
+  AND SYSDATETIME() => DATEADD(dd, -7, SYSDATETIME());
+  
+  1. Since we are acounting for unique viewers, we will use select distinct user_id to make sure we are not counting duplicate user_id for user_id that have viewership for both
+  Game of Thrones & Westworld.
+  
+  2. We are selecting distinct user_id from the viewership table where video_id is true for values in the series Metadata table in series name ('Game of Thrones' or 'Westworld')
+  series_name.
+  
+  3. Then a record is displayed of unique viewers from the last 7 days from today's date and time which will only display if it is equal to 7 days subtracted from todays day or
+  greater than seven days minus todays date.
+  
+2. What is the average completion rate (seconds watched divided by runtime) for the first episode of every series?
+
+Select
+  series_name,
+  AVG(
+    seconds_watched / runtime_seconds
+  ) "Compilation rate"
+from
+  (table created for dim_video)
+  inner join (table created for fact_view) on (table created for fact_view).video_id = (table created for dim_video).video_id
+where
+  episode_number = 1
+group by
+  series_name;
+  
+1. Select the series name and avg of seconds_watched from viewership table divided by runtime_seconds from series metadata table and give it the field "compliation rate".
+2. To do this we we will take the values from an inner join between the viewership table and the series metatadata table by using video_id.
+3. Only the values where episode_number is equal to 1 will be displayed showing the series name and avg compilation rate.
+4. The displayed values will be separated into groups of rows by series_name.
+
+3. What is the 2nd most watched episode per genre in terms of minutes watched?
+
+SELECT
+  a.episode_number,
+  a.genre
+FROM
+  (
+    SELECT
+      episode_number,
+      genre,
+      (runtime_seconds/60) AS runtime_minutes,
+      DENSE_RANK() over(
+        ORDER BY
+          runtime_minutes DESC
+      ) AS jp
+    FROM
+      (table created for dim_video)
+    group by
+      episode_number,
+      genre
+  ) as a
+where
+  jp = 2
+  
+1. Create a table called jp from the table creaed for dim_video.
+2. From the table created for dim_video we will create a table called jp by selecting episode_number, genre, runtime_seconds/60 as runtime_minutes.
+3. DENSE_RANK is used to return the rank of each row with no gaps in the ranking values. This is done so every row gets a unique rank and ordered by runtime_minutes descending.
+5. Another table will be made by taking jp and group by epsiode_number and genre and will be called a.
+6. Select the episode_number and genre from table a and and display values where jp is equal to the second ranking in table a grouped by episode number and genre.
+  
+  
