@@ -1,16 +1,16 @@
 1.How many unique viewers did Game of Thrones & Westworld garner in the past 7 days?
 
-Select
+SELECT
   distinct user_id
-from
+FROM
   (table created for fact_view)
-where
+WHERE
   video_id in(
-    Select
+    SELECT
       video_id
-    from
+    FROM
       (table created for dim_video)
-    where
+    WHERE
       series_name in('Game of Thrones', 'Westworld')
   )
   AND SYSDATETIME() => DATEADD(dd, -7, SYSDATETIME());
@@ -26,17 +26,17 @@ where
   
 2. What is the average completion rate (seconds watched divided by runtime) for the first episode of every series?
 
-Select
+SELECT
   series_name,
   AVG(
     seconds_watched / runtime_seconds
   ) "Compilation rate"
-from
+FROM
   (table created for dim_video)
   inner join (table created for fact_view) on (table created for fact_view).video_id = (table created for dim_video).video_id
-where
+WHERE
   episode_number = 1
-group by
+GROUP BY
   series_name;
   
 1. Select the series name and avg of seconds_watched from viewership table divided by runtime_seconds from series metadata table and give it the field "compliation rate".
