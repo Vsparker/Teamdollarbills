@@ -1,0 +1,12 @@
+{
+  "base_url": "/user/vpark00/",
+  "hostname": "127.0.0.1",
+  "notebook_dir": "/home/jupyter-vpark00",
+  "password": false,
+  "pid": 374164,
+  "port": 33325,
+  "secure": false,
+  "sock": "",
+  "token": "",
+  "url": "http://127.0.0.1:33325/user/vpark00/"
+}
