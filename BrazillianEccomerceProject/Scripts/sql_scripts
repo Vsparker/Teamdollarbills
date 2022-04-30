@@ -1,1 +1,90 @@
+Gathering Tables
 
+--Updates product category name to translate to english (did not have access so redid it in Juypter)
+
+SELECT column2 AS product_category_name_translation
+FROM product_category_name_translation
+UPDATE olist_products_dataset
+SET product_category_name =
+(SELECT column2 FROM product_category_name_translation
+ WHERE product_category_name_translation.column2 = olist_products_dataset.product_category_name)
+ 
+--Query for tables 
+SELECT *
+FROM olist_customers_dataset
+
+SELECT *
+FROM olist_geolocation_dataset
+
+SELECT *
+FROM olist_order_items_dataset
+
+SELECT *
+FROM olist_order_payments_dataset
+
+SELECT *
+FROM olist_order_reviews_dataset
+
+SELECT *
+FROM olist_orders_dataset
+
+SELECT *
+FROM olist_products_dataset
+
+SELECT *
+FROM olist_sellers_dataset
+
+Where are the sellers?
+
+SELECT COUNT(seller_id) AS seller,
+seller_zip_code_prefix as zipcode
+FROM olist_sellers_dataset
+GROUP BY seller_zip_code_prefix 
+
+SELECT COUNT(seller_id) AS seller,
+seller_city as city
+FROM olist_sellers_dataset
+GROUP BY seller_city 
+
+SELECT COUNT(seller_id) AS seller,
+seller_state as state
+FROM olist_sellers_dataset
+GROUP BY seller_state
+
+--Which Seller is selling the most?
+
+SELECT sellers.seller_id AS Seller,
+COUNT (orderItems.order_id) AS #ofOrders,
+
+
+sellers.seller_state AS state,
+sellers.seller_city AS city,
+sellers.seller_zip_code_prefix AS zipcode,
+FROM olist_sellers_dataset AS sellers
+LEFT JOIN olist_order_items_dataset AS orderItems
+ON sellers.seller_id = orderItems.seller_id
+GROUP BY sellers.seller_id, 
+sellers.seller_state,
+sellers.seller_city,
+sellers.seller_zip_code_prefix
+ORDER BY #ofOrders DESC
+
+-- Where are my customers?
+
+SELECT COUNT(customer_unique_id) AS customers,
+customer_state AS state
+FROM olist_customers_dataset
+GROUP BY customer_state
+ORDER BY customers DESC
+
+SELECT COUNT(customer_id) AS customers,
+customer_city AS city
+FROM olist_customers_dataset
+GROUP BY customer_city
+ORDER BY customers DESC
+
+SELECT COUNT(customer_id) AS customers,
+customer_zip_code_prefix AS zicode
+FROM olist_customers_dataset
+GROUP BY customer_zip_code_prefix
+ORDER BY customers DESC
